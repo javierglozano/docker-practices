@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx-app
+    person: jgomezl
+  annotations:
+    monitoring: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+        person: jgomezl
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+          requests: 
+            memory: "500Mi"
+            cpu: "500m"    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-app-deploy
+  labels:
+    name: nginx-app-deploy
+    person: jgomezl
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  sessionAffinity: ClientIP
+  selector:
+    name: nginx-app

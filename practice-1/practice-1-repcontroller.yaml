@@ -1,0 +1,21 @@
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx-app-repc
+  labels:
+    name: nginx-app-repc
+    person: jgomezl
+spec:
+  replicas: 3
+  selector:
+    name: nginx-app
+  template:
+    metadata:
+      labels:
+        name: nginx-app
+        person: jgomezl
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
